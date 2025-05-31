@@ -6,6 +6,7 @@ import { TestBed } from '../Utils/TestBed';
 import { Board } from '../Utils/Board';
 import { Node } from '../Utils/Node';
 import { BruteForceAlg } from '../Utils/BruteForceAlg';
+import { BacktrackingAlg } from '../Utils/BacktrackingAlg';
 
 export const ROBOT_MODEL = new InjectionToken<RobotModel>('RobotModel');
 
@@ -104,10 +105,25 @@ export class RobotModel implements IObservable {
       throw new RobotModelRuntimeException('No hay banco de prueba en curso.');
 
     const resolver = new BruteForceAlg(this.testBed);
-    const solutions = resolver.getSolutions();
-    console.log('Solutions:', solutions);
-    if (solutions.length) {
-      const solution = solutions[0]!;
+    const solution = resolver.getSolution();
+    console.log('Solution:', solution);
+    if (solution) {
+      for (const node of solution.values()) {
+        node.select();
+      }
+    }
+
+    this.notifyObservers();
+  }
+
+  public resolveWithBacktracking(): void {
+    if (!this.testBed)
+      throw new RobotModelRuntimeException('No hay banco de prueba en curso.');
+
+    const resolver = new BacktrackingAlg(this.testBed);
+    const solution = resolver.getSolution();
+    console.log('Solution:', solution);
+    if (solution) {
       for (const node of solution.values()) {
         node.select();
       }

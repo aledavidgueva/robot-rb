@@ -1,4 +1,6 @@
+import { Coordinate } from './Coordinate';
 import { Node } from './Node';
+import { Tuple } from './Tuple';
 
 /**
  * Clase del tablero
@@ -142,6 +144,23 @@ export class Board {
     const column = num % this.columns;
 
     return this.getNode(column, row);
+  }
+
+  public getPositionBySequenceNumber(num: number): Coordinate {
+    if (num < 0 || num >= this.columns * this.rows)
+      throw new BoardException('Se solicitó un nodo fuera de rango.');
+
+    const row = Math.floor(num / this.columns);
+    const column = num % this.columns;
+    return new Coordinate(column, row);
+  }
+
+  public getSequenceNumberOfNode(node: Node): number {
+    const coordinate = node.getCoordinate();
+    return this.getSequenceNumberByPosition(
+      coordinate.getColumn(),
+      coordinate.getRow(),
+    );
   }
 
   public getSequenceNumberByPosition(column: number, row: number): number {

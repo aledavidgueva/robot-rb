@@ -26,6 +26,9 @@ import { RobotScreen } from '../Models/RobotModel';
       <button class="btn btn-warning" (click)="resolveWithBruteForce()">
         Resolver con Fuerza Bruta
       </button>
+      <button class="btn btn-warning" (click)="resolveWithBacktracking()">
+        Resolver con Backtracking
+      </button>
     </div>
 
     <div class="position-relative">
@@ -86,6 +89,10 @@ export class TestBedView implements IObserver, OnInit, OnDestroy {
 
   public resolveWithBruteForce(): void {
     this.robotController.resolveWithBruteForce();
+  }
+
+  public resolveWithBacktracking(): void {
+    this.robotController.resolveWithBacktracking();
   }
 
   public notify(): void {

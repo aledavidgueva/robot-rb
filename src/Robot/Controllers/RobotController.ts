@@ -98,6 +98,10 @@ export class RobotController implements IObservable {
   public resolveWithBruteForce(): void {
     this.robotModel.resolveWithBruteForce();
   }
+
+  public resolveWithBacktracking(): void {
+    this.robotModel.resolveWithBacktracking();
+  }
 }
 
 export class RobotControllerException extends Error {}

@@ -7,7 +7,10 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { ROBOT_CONTROLLER, RobotController } from '../Controllers/RobotController';
+import {
+  ROBOT_CONTROLLER,
+  RobotController,
+} from '../Controllers/RobotController';
 import { IObserver } from '../Utils/IObserver';
 
 export type ViewportOrientation = 'LANDSCAPE' | 'PORTRAIT';
@@ -29,11 +32,11 @@ export type ViewportOrientation = 'LANDSCAPE' | 'PORTRAIT';
                 [style.width]="
                   columns > rows
                     ? orientation === 'PORTRAIT'
-                      ? 'calc(50vw / ' + columns + ')'
-                      : 'calc(50vh / ' + columns + ')'
+                      ? 'calc(80vw / ' + columns + ')'
+                      : 'calc(80vh / ' + columns + ')'
                     : orientation === 'PORTRAIT'
-                      ? 'calc(50vw / ' + rows + ')'
-                      : 'calc(50vh / ' + rows + ')'
+                      ? 'calc(80vw / ' + rows + ')'
+                      : 'calc(80vh / ' + rows + ')'
                 "
               >
               </robot-board-square>
