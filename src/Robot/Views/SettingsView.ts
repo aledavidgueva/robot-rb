@@ -18,27 +18,8 @@ import { IObserver } from '../Utils/IObserver';
   standalone: false,
   template: `
     <div>
-
       <div class="mb-3 col-12 col-md-6 mx-auto">
         <label class="form-label">Configurá el tamaño del tablero</label>
-      </div>
-
-      <div class="mb-2 col-12 col-md-6 mx-auto">
-        <div class="row">
-          <div class="col-4 col-md-3 text-start">
-            <label class="form-label">Filas</label>
-          </div>
-          <div class="col-6 col-md-7">
-            <input
-              type="range"
-              class="form-range"
-              [attr.min]="minRows"
-              [attr.max]="maxRows"
-              [(ngModel)]="rows"
-            />
-          </div>
-          <div class="col-2 text-end">{{ rows }}</div>
-        </div>
       </div>
 
       <div class="mb-2 col-12 col-md-6 mx-auto">
@@ -56,6 +37,24 @@ import { IObserver } from '../Utils/IObserver';
             />
           </div>
           <div class="col-2 text-end">{{ columns }}</div>
+        </div>
+      </div>
+
+      <div class="mb-2 col-12 col-md-6 mx-auto">
+        <div class="row">
+          <div class="col-4 col-md-3 text-start">
+            <label class="form-label">Filas</label>
+          </div>
+          <div class="col-6 col-md-7">
+            <input
+              type="range"
+              class="form-range"
+              [attr.min]="minRows"
+              [attr.max]="maxRows"
+              [(ngModel)]="rows"
+            />
+          </div>
+          <div class="col-2 text-end">{{ rows }}</div>
         </div>
       </div>
 
@@ -128,7 +127,7 @@ export class SettingsView implements IObserver, OnInit, OnDestroy {
   public runTestBed(): void {
     this.debug(`Ejecutar ${this.columns} x ${this.rows}`);
     this.robotController.runNewTestBed(this.columns, this.rows);
-  }  
+  }
 
   public notify(): void {
     this.minRows = this.robotController.getMinRows();

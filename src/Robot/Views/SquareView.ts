@@ -35,7 +35,7 @@ import { IObserver } from '../Utils/IObserver';
         width: 100%;
         height: 100%;
         aspect-ratio: 1;
-        background-color: white;
+        background: white;
         transition: all ease-out 0.1s;
         color: black;
         font-weight: bold;
@@ -43,9 +43,10 @@ import { IObserver } from '../Utils/IObserver';
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        transition: background 0.4s;
 
         &.selected {
-          background-color: orange;
+          background: orange;
         }
       }
     `,

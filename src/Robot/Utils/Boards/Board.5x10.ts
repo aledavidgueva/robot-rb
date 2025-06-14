@@ -1,0 +1,67 @@
+import { Board } from '../Board';
+import { Node } from '../Node';
+
+const nodes: Array<Array<Node>> = [
+  [
+    new Node(0, 0, -1),
+    new Node(0, 1, -1),
+    new Node(0, 2, -1),
+    new Node(0, 3, -1),
+    new Node(0, 4, 1),
+    new Node(0, 5, 1),
+    new Node(0, 6, 1),
+    new Node(0, 7, -1),
+    new Node(0, 8, 1),
+    new Node(0, 9, 1),
+  ],
+  [
+    new Node(1, 0, -1),
+    new Node(1, 1, 1),
+    new Node(1, 2, -1),
+    new Node(1, 3, 1),
+    new Node(1, 4, 1),
+    new Node(1, 5, 1),
+    new Node(1, 6, 1),
+    new Node(1, 7, -1),
+    new Node(1, 8, 1),
+    new Node(1, 9, 1),
+  ],
+  [
+    new Node(2, 0, -1),
+    new Node(2, 1, 1),
+    new Node(2, 2, 1),
+    new Node(2, 3, 1),
+    new Node(2, 4, 1),
+    new Node(2, 5, 1),
+    new Node(2, 6, -1),
+    new Node(2, 7, -1),
+    new Node(2, 8, 1),
+    new Node(2, 9, 1),
+  ],
+  [
+    new Node(3, 0, 1),
+    new Node(3, 1, 1),
+    new Node(3, 2, 1),
+    new Node(3, 3, 1),
+    new Node(3, 4, -1),
+    new Node(3, 5, 1),
+    new Node(3, 6, 1),
+    new Node(3, 7, 1),
+    new Node(3, 8, -1),
+    new Node(3, 9, 1),
+  ],
+  [
+    new Node(4, 0, -1),
+    new Node(4, 1, -1),
+    new Node(4, 2, -1),
+    new Node(4, 3, -1),
+    new Node(4, 4, 1),
+    new Node(4, 5, 1),
+    new Node(4, 6, 1),
+    new Node(4, 7, 1),
+    new Node(4, 8, 1),
+    new Node(4, 9, -1),
+  ],
+];
+
+export const board5x10: Board = new Board(5, 10, nodes);

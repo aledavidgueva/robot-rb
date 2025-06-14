@@ -1,19 +1,30 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { IObserver } from "../Utils/IObserver";
-import { ROBOT_CONTROLLER, RobotController } from "../Controllers/RobotController";
-import { RobotScreen } from "../Models/RobotModel";
+import { IObserver } from '../Utils/IObserver';
+import {
+  ROBOT_CONTROLLER,
+  RobotController,
+} from '../Controllers/RobotController';
+import { RobotScreen } from '../Models/RobotModel';
 
 @Component({
   selector: 'app-root',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
   template: `
-  
-  <div class="container">
+    <div class="container">
       <div class="row">
         <div class="col text-center">
-          <h1 class="display-6 fw-bold text-body-emphasis my-3">{{ appTitle }}</h1>
+          <h3 class="fw-bold text-body-emphasis my-3">
+            {{ appTitle }}
+          </h3>
 
           <div class="card">
             <div class="card-body">
@@ -28,20 +39,18 @@ import { RobotScreen } from "../Models/RobotModel";
               @if (screenIsRunning()) {
                 <robot-test-bed></robot-test-bed>
               }
-
             </div>
           </div>
         </div>
       </div>
-    </div>  
-  
+    </div>
   `,
   styles: [
     `
-    :host {
+      :host {
         display: block;
       }
-    `
+    `,
   ],
 })
 export class RobotView implements IObserver, OnInit, OnDestroy {
@@ -63,15 +72,15 @@ export class RobotView implements IObserver, OnInit, OnDestroy {
     this.currentScreen = RobotScreen.MENU;
     this.appTitle = this.robotController.getAppTitle();
     titleService.setTitle(this.appTitle);
-  }  
+  }
 
   public ngOnInit(): void {
     this.robotController.addObserver(this);
   }
 
   public ngOnDestroy(): void {
-    this.robotController.removeObserver(this); 
-  }  
+    this.robotController.removeObserver(this);
+  }
 
   public screenIsMenu(): boolean {
     return this.screenIs(RobotScreen.MENU);
@@ -87,7 +96,7 @@ export class RobotView implements IObserver, OnInit, OnDestroy {
 
   public screenIs(screen: RobotScreen): boolean {
     return this.currentScreen.localeCompare(screen) === 0;
-  }  
+  }
 
   public notify(): void {
     const currentScreen: RobotScreen = this.robotController.getCurrentScreen();
@@ -100,5 +109,5 @@ export class RobotView implements IObserver, OnInit, OnDestroy {
 
   private debug(...message: string[]): void {
     console.debug(`[${this.constructor.name}]`, ...message);
-  }  
+  }
 }

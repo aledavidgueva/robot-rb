@@ -1,6 +1,5 @@
 import { Coordinate } from './Coordinate';
 import { Node } from './Node';
-import { Tuple } from './Tuple';
 
 /**
  * Clase del tablero
@@ -11,12 +10,21 @@ export class Board {
   private readonly nodes: Array<Array<Node>>;
   private readonly nodesLenght: number;
 
-  public constructor(columns: number, rows: number) {
+  public constructor(
+    columns: number,
+    rows: number,
+    nodes: Array<Array<Node>> | null = null,
+  ) {
     Board.validateColumnsAndRows(columns, rows);
     this.columns = columns;
     this.rows = rows;
-    this.nodes = this.createNodes();
     this.nodesLenght = this.columns * this.rows;
+    if (nodes) {
+      this.validateNodes(nodes);
+      this.nodes = nodes;
+    } else {
+      this.nodes = this.createNodes();
+    }
   }
 
   private static validateColumnsAndRows(columns: number, rows: number): void {
@@ -27,6 +35,35 @@ export class Board {
       rows < 0
     )
       throw new BoardException(`Filas o columnas no válidas.`);
+  }
+
+  private validateNodes(nodes: Array<Array<Node>>) {
+    for (let columnIndex = 0; columnIndex < this.columns; columnIndex++) {
+      const nodesColumn = nodes[columnIndex];
+      if (!nodesColumn || !Array.isArray(nodesColumn)) {
+        throw new Error(
+          `Error de validación de nodos: no existe columna ${columnIndex}`,
+        );
+      }
+      for (let rowIndex = 0; rowIndex < this.rows; rowIndex++) {
+        const node = nodesColumn[rowIndex];
+        if (!node) {
+          throw new Error(
+            `Error de validación de nodos: no existe nodo fila ${rowIndex} col ${columnIndex}`,
+          );
+        }
+        const coordinate = node.getCoordinate();
+        if (
+          coordinate.getRow() !== rowIndex ||
+          coordinate.getColumn() !== columnIndex
+        ) {
+          throw new Error(
+            `Error de validación de nodos: nodo con posición inválida.`,
+          );
+        }
+        node.reset();
+      }
+    }
   }
 
   private createNodes(): Array<Array<Node>> {
@@ -44,51 +81,6 @@ export class Board {
       nodes.push(column);
     }
     return nodes;
-  }
-
-  // public static fromJSON(data: string): Board {
-  //   const content = JSON.parse(data);
-  //   Board.validateUntypedObject(content);
-  // }
-
-  // private static validateUntypedObject(content: any): void {
-  //   Board.validatePropAndType(content, 'columns', 'number');
-  //   Board.validatePropAndType(content, 'columns', 'number');
-  //   Board.validatePropAndType(content, 'rows', 'number');
-  //   Board.validateColumnsAndRows(content['columns'], content['rows']);
-  //   Board.validatePropAndType(content, 'nodes', 'array');
-  //   // TODO:
-  //   // for (const item of content['nodes']) {
-  //   //   Board.validatePropAndType(item, 'nodes', 'array');
-  //   // }
-  // }
-
-  private static validatePropAndType(
-    object: { [key: string]: string | number | null },
-    property: string,
-    expectedType: 'number' | 'array' | 'string' | 'object',
-  ): void {
-    if (typeof object === 'undefined')
-      throw new Error(`Validation failed: Object passed is undefined.`);
-
-    if (typeof object !== 'object')
-      throw new Error(`Validation failed: Object passed isn't an object.`);
-
-    if (typeof object[property] === 'undefined')
-      throw new Error(
-        `Validation failed: Property ${property} in dynamic object is undefined.`,
-      );
-
-    const mainType = expectedType === 'array' ? 'object' : expectedType;
-    if (typeof object[property] !== mainType)
-      throw new Error(
-        `Validation failed: Type of property ${property} in dynamic object isn't type ${expectedType}. Current type is ${typeof object[property]}.`,
-      );
-
-    if (expectedType === 'array' && !Array.isArray(object[property]))
-      throw new Error(
-        `Validation failed: Type of property ${property} in dynamic object isn't an array. Current type is object.`,
-      );
   }
 
   private getRandomCharge(): 1 | -1 {

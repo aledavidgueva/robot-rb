@@ -1,10 +1,9 @@
 import { Board } from './Board';
 import { ISolver } from './ISolver';
 import { Node } from './Node';
-import { TestBed } from './TestBed';
+import { SolverResult } from './SolverResult';
 
 export class BruteForceAlg implements ISolver {
-  protected readonly testBed: TestBed;
   protected readonly board: Board;
 
   protected currentPath: Set<Node> = new Set();
@@ -17,11 +16,10 @@ export class BruteForceAlg implements ISolver {
 
   protected timeElapsed: number = Infinity;
 
-  protected pathCounter: number = 0;
+  protected recursionCounter: number = 0;
 
-  constructor(testBed: TestBed) {
-    this.testBed = testBed;
-    this.board = this.testBed.getBoard();
+  constructor(board: Board) {
+    this.board = board;
     this.validateBoard();
     this.minPathSize = this.board.getColumns() + this.board.getRows() - 1;
     this.firstNode = this.board.getNode(0, 0);
@@ -33,8 +31,7 @@ export class BruteForceAlg implements ISolver {
   }
 
   protected validateBoard(): void {
-    const board = this.testBed.getBoard();
-    if (board.getColumns() < 1 || board.getRows() < 1)
+    if (this.board.getColumns() < 1 || this.board.getRows() < 1)
       throw new Error('La matriz es vacía.');
   }
 
@@ -48,18 +45,32 @@ export class BruteForceAlg implements ISolver {
   protected generateFrom(seqNum: number): void {
     if (seqNum === this.board.getNodesLenght()) {
       // Caso base
-      this.pathCounter++;
       if (this.isValidPath()) {
         this.solution = new Set(this.currentPath);
       }
-    } else if (this.solution === null) {
+    } else {
       // Caso recursivo
+      if (seqNum) this.recursionCounter++;
       const node = this.board.getNodeBySequenceNumber(seqNum);
-      this.currentPath.add(node);
-      this.generateFrom(seqNum + 1);
-      this.currentPath.delete(node);
-      this.generateFrom(seqNum + 1);
+      this.generatePath(node);
     }
+  }
+
+  protected generatePath(node: Node) {
+    this.currentPath.add(node);
+
+    const bottomNodeOfPrev = this.board.getBottomNodeOf(node);
+    if (bottomNodeOfPrev)
+      this.generateFrom(this.board.getSequenceNumberOfNode(bottomNodeOfPrev));
+
+    const rightNodeOfPrev = this.board.getRightNodeOf(node);
+    if (rightNodeOfPrev)
+      this.generateFrom(this.board.getSequenceNumberOfNode(rightNodeOfPrev));
+
+    if (!rightNodeOfPrev && !bottomNodeOfPrev)
+      this.generateFrom(this.board.getNodesLenght());
+
+    this.currentPath.delete(node);
   }
 
   protected isValidPath(): boolean {
@@ -72,11 +83,14 @@ export class BruteForceAlg implements ISolver {
     return this.currentPath.size === this.minPathSize;
   }
 
-  protected pathIsSumZero(): boolean {
+  protected getPathSum(): number {
     let sum = 0;
     for (const node of this.currentPath) sum += node.getCharge();
+    return sum;
+  }
 
-    return sum === 0;
+  protected pathIsSumZero(): boolean {
+    return this.getPathSum() === 0;
   }
 
   protected pathHasValidSequence(): boolean {
@@ -96,15 +110,12 @@ export class BruteForceAlg implements ISolver {
     return nodes[nodes.length - 1] === this.lastNode;
   }
 
-  public getSolution(): Set<Node> | null {
-    return this.solution;
-  }
-
-  public getTimeElapsed(): number {
-    return this.timeElapsed;
-  }
-
-  public getPathCounter(): number {
-    return this.pathCounter;
+  public getResult(): SolverResult {
+    return new SolverResult(
+      this.constructor.name,
+      this.solution,
+      this.timeElapsed,
+      this.recursionCounter,
+    );
   }
 }

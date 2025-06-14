@@ -32,11 +32,11 @@ export type ViewportOrientation = 'LANDSCAPE' | 'PORTRAIT';
                 [style.width]="
                   columns > rows
                     ? orientation === 'PORTRAIT'
-                      ? 'calc(80vw / ' + columns + ')'
-                      : 'calc(80vh / ' + columns + ')'
-                    : orientation === 'PORTRAIT'
-                      ? 'calc(80vw / ' + rows + ')'
-                      : 'calc(80vh / ' + rows + ')'
+                      ? 'calc(50vw / ' + columns + ')'
+                      : 'calc(50vh / ' + columns + ')'
+                    : orientation === 'LANDSCAPE'
+                      ? 'calc(50vh / ' + rows + ')'
+                      : 'calc(50vw / ' + rows + ')'
                 "
               >
               </robot-board-square>

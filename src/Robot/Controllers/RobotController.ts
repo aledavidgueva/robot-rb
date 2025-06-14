@@ -2,8 +2,9 @@ import { InjectionToken } from '@angular/core';
 import { RobotModel, RobotScreen } from '../Models/RobotModel';
 import { IObservable } from '../Utils/IObservable';
 import { IObserver } from '../Utils/IObserver';
-import { TestBed } from '@angular/core/testing';
 import { Tuple } from '../Utils/Tuple';
+import { SolverResult } from '../Utils/SolverResult';
+import { Board } from '../Utils/Board';
 
 export const ROBOT_CONTROLLER = new InjectionToken<RobotController>(
   'RobotController',
@@ -29,41 +30,31 @@ export class RobotController implements IObservable {
   }
 
   public getMinRows(): number {
-    return this.robotModel.getConfig().minRows;
+    return this.robotModel.getConfig().getMinRows();
   }
 
   public getMaxRows(): number {
-    return this.robotModel.getConfig().maxRows;
+    return this.robotModel.getConfig().getMaxRows();
   }
 
   public getMinColumns(): number {
-    return this.robotModel.getConfig().minColumns;
+    return this.robotModel.getConfig().getMinColumns();
   }
 
   public getMaxColumns(): number {
-    return this.robotModel.getConfig().maxColumns;
+    return this.robotModel.getConfig().getMaxColumns();
   }
 
   public getCurrentScreen(): RobotScreen {
     return this.robotModel.getCurrentScreen();
   }
 
-  public runNewTestBed(inputColumns: number, inputRows: number): void {
-    const columns = inputColumns;
-    const rows = inputRows;
-    const config = this.robotModel.getConfig();
-
-    if (
-      columns < config.minColumns ||
-      columns > config.maxColumns ||
-      rows < config.minRows ||
-      rows > config.maxRows
-    )
-      throw new RobotControllerException(
-        'Los valores de configuración no son válidos',
-      );
-
-    this.robotModel.runNewTestBed(columns, rows);
+  public runNewTestBed(
+    inputColumns: number,
+    inputRows: number,
+    board: Board | null = null,
+  ): void {
+    this.robotModel.runNewTestBed(inputColumns, inputRows, board);
   }
 
   public getBoardColumns(): number {
@@ -101,6 +92,14 @@ export class RobotController implements IObservable {
 
   public resolveWithBacktracking(): void {
     this.robotModel.resolveWithBacktracking();
+  }
+
+  public getCurrentSolverResult(): SolverResult | null {
+    return this.robotModel.getCurrentSolverResult();
+  }
+
+  public getTestBedLog(): Array<SolverResult> {
+    return this.robotModel.getTestBed().getLog();
   }
 }
 

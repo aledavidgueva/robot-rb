@@ -1,8 +1,5 @@
-import { TestBed } from './TestBed';
-import { Node } from './Node';
+import { SolverResult } from './SolverResult';
 
 export interface ISolver {
-  getSolution(): Set<Node> | null;
-  getTimeElapsed(): number;
-  getPathCounter(): number;
+  getResult(): SolverResult;
 }

@@ -1,11 +1,27 @@
 export class Config {
   public readonly name: string;
-  public readonly minRows: number = 2;
-  public readonly minColumns: number = 2;
-  public readonly maxRows: number = 20;
-  public readonly maxColumns: number = 20;
+  public static readonly minRows: number = 2;
+  public static readonly minColumns: number = 2;
+  public static readonly maxRows: number = 15;
+  public static readonly maxColumns: number = 15;
 
-  constructor(config: Pick<Config, 'name'>) {
-    this.name = config.name;
+  constructor(name: string) {
+    this.name = name;
+  }
+
+  public getMinRows(): number {
+    return Config.minRows;
+  }
+
+  public getMinColumns(): number {
+    return Config.minColumns;
+  }
+
+  public getMaxRows(): number {
+    return Config.maxRows;
+  }
+
+  public getMaxColumns(): number {
+    return Config.maxColumns;
   }
 }
