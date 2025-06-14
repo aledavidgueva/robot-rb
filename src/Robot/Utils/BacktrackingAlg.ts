@@ -32,7 +32,7 @@ export class BacktrackingAlg extends BruteForceAlg {
   }
 
   private isFromHalfPath(): boolean {
-    return this.currentPath.size >= this.minPathSize / 2;
+    return this.currentPath.size > this.minPathSize / 2;
   }
 
   private checkSumFromHalf(): boolean {
