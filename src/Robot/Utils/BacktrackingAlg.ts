@@ -10,7 +10,7 @@ export class BacktrackingAlg extends BruteForceAlg {
     } else if (this.applyBranchPruning()) {
       return;
       //
-    } else {
+    } else if (this.solution !== null) {
       // Caso recursivo
       if (seqNum) this.recursionCounter++;
       const node = this.board.getNodeBySequenceNumber(seqNum);

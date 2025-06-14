@@ -48,7 +48,7 @@ export class BruteForceAlg implements ISolver {
       if (this.isValidPath()) {
         this.solution = new Set(this.currentPath);
       }
-    } else {
+    } else if (this.solution !== null) {
       // Caso recursivo
       if (seqNum) this.recursionCounter++;
       const node = this.board.getNodeBySequenceNumber(seqNum);
