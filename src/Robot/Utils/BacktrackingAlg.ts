@@ -1,16 +1,18 @@
 import { BruteForceAlg } from './BruteForceAlg';
 
 export class BacktrackingAlg extends BruteForceAlg {
+  protected override readonly name: string = 'BacktrackingAlg';
+
   protected override generateFrom(seqNum: number): void {
     if (seqNum === this.board.getNodesLenght()) {
       // Caso base
       if (this.isValidPath()) {
         this.solution = new Set(this.currentPath);
       }
-    } else if (this.applyBranchPruning()) {
+    } else if (!this.solution && this.applyBranchPruning()) {
       return;
       //
-    } else if (this.solution !== null) {
+    } else if (!this.solution) {
       // Caso recursivo
       if (seqNum) this.recursionCounter++;
       const node = this.board.getNodeBySequenceNumber(seqNum);

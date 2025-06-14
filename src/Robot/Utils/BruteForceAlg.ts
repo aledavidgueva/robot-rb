@@ -4,6 +4,8 @@ import { Node } from './Node';
 import { SolverResult } from './SolverResult';
 
 export class BruteForceAlg implements ISolver {
+  protected readonly name: string = 'BruteForceAlg';
+
   protected readonly board: Board;
 
   protected currentPath: Set<Node> = new Set();
@@ -48,7 +50,7 @@ export class BruteForceAlg implements ISolver {
       if (this.isValidPath()) {
         this.solution = new Set(this.currentPath);
       }
-    } else if (this.solution !== null) {
+    } else if (!this.solution) {
       // Caso recursivo
       if (seqNum) this.recursionCounter++;
       const node = this.board.getNodeBySequenceNumber(seqNum);
@@ -112,7 +114,7 @@ export class BruteForceAlg implements ISolver {
 
   public getResult(): SolverResult {
     return new SolverResult(
-      this.constructor.name,
+      this.name,
       this.solution,
       this.timeElapsed,
       this.recursionCounter,
